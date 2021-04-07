@@ -18,7 +18,7 @@ class Checker(object):
     def retrieve_errors(self):
         df = pd.DataFrame()
         for err_idx, (asst_name, inp, out) in enumerate(self.errors):
-            df_tmp = pd.concat([inp.reset_index(drop=True), out.reset_index(drop=True)], axis=1, ignore_index=True)
+            df_tmp = pd.concat([inp.reset_index(drop=True), out.reset_index(drop=True)], axis=1)
             df_tmp['assertion'] = asst_name
             df_tmp['err_idx'] = err_idx
             df_tmp = df_tmp.loc[:, ~df_tmp.columns.duplicated()]
@@ -27,7 +27,7 @@ class Checker(object):
                 df = df.append(df_tmp)
             else:
                 df = df_tmp
-        return df
+        return df.reset_index(drop=True)
 
     def clear_errors(self):
         self.errors = []

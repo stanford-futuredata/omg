@@ -1,5 +1,4 @@
-import functools
-from collections import defaultdict
+import pandas as pd
 
 
 class Checker(object):
@@ -16,8 +15,19 @@ class Checker(object):
             raise RuntimeError('Attempting to add two assertions with the same name!')
         self.assertions[name] = assertion
 
-    def retrive_errors(self):
-        return self.errors
+    def retrieve_errors(self):
+        df = pd.DataFrame()
+        for err_idx, (asst_name, inp, out) in enumerate(self.errors):
+            df_tmp = pd.concat([inp.reset_index(drop=True), out.reset_index(drop=True)], axis=1, ignore_index=True)
+            df_tmp['assertion'] = asst_name
+            df_tmp['err_idx'] = err_idx
+            df_tmp = df_tmp.loc[:, ~df_tmp.columns.duplicated()]
+
+            if len(df) > 0:
+                df = df.append(df_tmp)
+            else:
+                df = df_tmp
+        return df
 
     def clear_errors(self):
         self.errors = []
@@ -30,8 +40,10 @@ class Checker(object):
                 if self.verbose:
                     print(f'Assertion {asst_name} failed on {errors}')
                 for err in errors:
-                    if self.verbose:
-                        print(inps.iloc[err], outs.iloc[err])
+                    if type(err) is not list:
+                        err = [err]
                     self.errors.append((asst_name, inps.iloc[err], outs.iloc[err]))
+            if self.verbose:
+                print(self.retrieve_errors())
             return outs
         return wrapper

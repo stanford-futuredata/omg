@@ -5,7 +5,7 @@ class IdentifierConsistencyAssertion(object):
     def __init__(self, identifier, attribute):
         self.identifier = identifier
         self.attribute = attribute
-        self.name = f'Identifier consistency {identifier}, {attribute}'
+        self.name = f'Identifier consistency `{identifier}`, `{attribute}`'
 
     def get_name(self):
         return self.name
@@ -35,7 +35,7 @@ class TimeConsistencyAssertion(object):
         self.timestamp = timestamp
         self.window = window
         self.allowed_transitions = allowed_transitions
-        self.name = f'Time consistency {identifier}, {window}'
+        self.name = f'Time consistency `{identifier}`, window of {window}'
 
     def get_name(self):
         return self.name

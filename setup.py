@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(
-        name='omg',
+        name='model_assertions',
         version='0.0.1',
         packages=['omg'],
         author='Daniel Kang',

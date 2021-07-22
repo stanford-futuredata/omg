@@ -8,9 +8,7 @@ Please read the [paper](https://arxiv.org/abs/2003.01668) for full technical det
 # Installation
 
 ```
-git clone https://github.com/stanford-futuredata/omg.git
-cd omg
-pip install .
+pip install model_assertions
 ```
 
 
